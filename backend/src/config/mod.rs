@@ -13,12 +13,12 @@ impl AppConfig {
         dotenv().ok();
 
         Self {
-            database_url: env::var("DATABASE_URL")
-                .unwrap_or_else(|_| "postgres://postgres:postgres@localhost/urlshortener".to_string()),
+            database_url: env::var("DATABASE_URL").unwrap_or_else(|_| {
+                "postgres://postgres:postgres@localhost/urlshortener".to_string()
+            }),
             server_address: env::var("SERVER_ADDRESS")
                 .unwrap_or_else(|_| "127.0.0.1:3000".to_string()),
-            base_url: env::var("BASE_URL")
-                .unwrap_or_else(|_| "http://localhost:3000".to_string()),
+            base_url: env::var("BASE_URL").unwrap_or_else(|_| "http://localhost:3000".to_string()),
         }
     }
 }
