@@ -15,8 +15,8 @@ use tower_http::cors::{Any, CorsLayer};
 
 use config::AppConfig;
 use database::DatabaseConnection;
-use routes::shorten::{shorten_url, list_urls};
 use routes::redirect::redirect_to_original;
+use routes::shorten::{list_urls, shorten_url};
 use services::url_service::UrlService;
 
 #[derive(Clone)]

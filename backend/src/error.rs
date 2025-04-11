@@ -29,28 +29,25 @@ impl IntoResponse for AppError {
         let (status, message) = match self {
             AppError::DatabaseConnectionError(_) => (
                 StatusCode::INTERNAL_SERVER_ERROR,
-                "Could not connect to database"
+                "Could not connect to database",
             ),
             AppError::DatabaseInitError(_) => (
                 StatusCode::INTERNAL_SERVER_ERROR,
-                "Could not initialize database"
+                "Could not initialize database",
             ),
-            AppError::UrlValidationError(details) => (
-                StatusCode::BAD_REQUEST,
-                details.as_str()
-            ),
-            AppError::DatabaseQueryError(_) => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                "Database query failed"
-            ),
-            AppError::UrlNotFoundError => (
-                StatusCode::NOT_FOUND,
-                "URL not found"
-            ),
+            AppError::UrlValidationError(details) => (StatusCode::BAD_REQUEST, details.as_str()),
+            AppError::DatabaseQueryError(_) => {
+                (StatusCode::INTERNAL_SERVER_ERROR, "Database query failed")
+            }
+            AppError::UrlNotFoundError => (StatusCode::NOT_FOUND, "URL not found"),
         };
 
-        (status, Json(json!({
-            "error": message
-        }))).into_response()
+        (
+            status,
+            Json(json!({
+                "error": message
+            })),
+        )
+            .into_response()
     }
 }
