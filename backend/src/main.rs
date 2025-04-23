@@ -27,29 +27,27 @@ pub struct AppState {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = AppConfig::new();
-
     let db_conn = DatabaseConnection::new(&config).await?;
-
     let url_service = UrlService::new(db_conn.get_pool(), config.clone());
 
-    let state = Arc::new(AppState { url_service });
+    let app_state = Arc::new(AppState { url_service });
 
     let cors = CorsLayer::new()
         .allow_origin(Any)
         .allow_methods(Any)
         .allow_headers(Any);
 
-    let app = Router::new()
+    let router = Router::new()
         .route("/api/shorten", post(shorten_url))
         .route("/:short_code", get(redirect_to_original))
-        .with_state(state)
+        .with_state(app_state)
         .layer(cors);
 
     let addr = config.server_address.parse::<SocketAddr>()?;
     println!("Server running on {}", addr);
 
     axum::Server::bind(&addr)
-        .serve(app.into_make_service())
+        .serve(router.into_make_service())
         .await?;
 
     Ok(())

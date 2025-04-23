@@ -2,7 +2,6 @@ use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use std::sync::Arc;
 
 use crate::models::url::UrlRequest;
-use crate::services::url_service::UrlService;
 use crate::AppState;
 
 pub async fn shorten_url(
