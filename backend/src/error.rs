@@ -11,9 +11,6 @@ pub enum AppError {
     #[error("Database connection error")]
     DatabaseConnectionError(#[source] sqlx::Error),
 
-    #[error("Database initialization error")]
-    DatabaseInitError(#[source] sqlx::Error),
-
     #[error("URL validation error")]
     UrlValidationError(String),
 
@@ -30,10 +27,6 @@ impl IntoResponse for AppError {
             AppError::DatabaseConnectionError(_) => (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 "Could not connect to database".to_string(),
-            ),
-            AppError::DatabaseInitError(_) => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                "Could not initialize database".to_string(),
             ),
             AppError::UrlValidationError(details) => (StatusCode::BAD_REQUEST, details),
             AppError::DatabaseQueryError(_) => (

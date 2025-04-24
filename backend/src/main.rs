@@ -11,6 +11,7 @@ use axum::{
 };
 use std::net::SocketAddr;
 use std::sync::Arc;
+use tokio::net::TcpListener;
 use tower_http::cors::{Any, CorsLayer};
 
 use config::AppConfig;
@@ -38,17 +39,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .allow_headers(Any);
 
     let router = Router::new()
-        .route("/api/shorten", post(shorten_url))
-        .route("/:short_code", get(redirect_to_original))
+        .route("/shorten", post(shorten_url))
+        .route("/{short_code}", get(redirect_to_original))
         .with_state(app_state)
         .layer(cors);
 
     let addr = config.server_address.parse::<SocketAddr>()?;
     println!("Server running on {}", addr);
 
-    axum::Server::bind(&addr)
-        .serve(router.into_make_service())
-        .await?;
+    let listener = TcpListener::bind(addr).await?;
+    axum::serve(listener, router.into_make_service()).await?;
 
     Ok(())
 }
