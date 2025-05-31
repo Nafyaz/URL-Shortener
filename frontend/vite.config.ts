@@ -2,14 +2,13 @@ import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
-import {defineConfig, loadEnv} from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin';
-const dirname =
-  typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
-// More info at: https://storybook.js.org/docs/writing-tests/test-addon
+// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
@@ -24,8 +23,8 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
-        $lib: path.resolve("./src/lib"),
-      },
+        $lib: path.resolve('./src/lib')
+      }
     },
     test: {
       workspace: [
@@ -54,7 +53,7 @@ export default defineConfig(({ mode }) => {
           extends: true,
           plugins: [
             // The plugin will run tests for the stories defined in your Storybook config
-            // See options at: https://storybook.js.org/docs/writing-tests/test-addon#storybooktest
+            // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
             storybookTest({
               configDir: path.join(dirname, '.storybook')
             })
