@@ -1,17 +1,12 @@
-import type { StorybookConfig } from '@storybook/sveltekit';
+import type { StorybookConfig } from "@storybook/sveltekit";
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|ts|svelte)'],
-  addons: [
-    '@storybook/addon-svelte-csf',
-    '@chromatic-com/storybook',
-    '@storybook/addon-docs',
-    '@storybook/addon-a11y',
-    '@storybook/addon-vitest'
-  ],
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|ts|svelte)"],
+  addons: ["@storybook/addon-svelte-csf"],
   framework: {
-    name: '@storybook/sveltekit',
+    name: "@storybook/sveltekit",
     options: {}
-  }
+  },
+  core: { disableTelemetry: true }
 };
 export default config;

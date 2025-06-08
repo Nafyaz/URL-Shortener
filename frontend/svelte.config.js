@@ -1,11 +1,11 @@
-import { mdsvex } from 'mdsvex';
-import adapter from '@sveltejs/adapter-node';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { mdsvex } from "mdsvex";
+import adapter from "@sveltejs/adapter-node";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 const config = {
   preprocess: [vitePreprocess(), mdsvex()],
-  kit: { adapter: adapter() },
-  extensions: ['.svelte', '.svx']
+  kit: { adapter: adapter(), alias: { $schemas: "./src/schemas" } },
+  extensions: [".svelte", ".svx"]
 };
 
 export default config;
