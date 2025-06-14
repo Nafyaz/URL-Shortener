@@ -1,6 +1,12 @@
-.idea
+#IDE
+/.idea
 
-node_modules
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
 
 # Output
 .output
@@ -9,16 +15,11 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
+/node_modules
 
 # OS
 .DS_Store
 Thumbs.db
-
-# Env
-.env
-.env.*
-!.env.example
-!.env.test
 
 # Vite
 vite.config.js.timestamp-*
