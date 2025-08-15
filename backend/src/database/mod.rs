@@ -16,7 +16,7 @@ impl DatabaseConnection {
             .await
             .map_err(AppError::DatabaseConnectionError)?;
 
-        sqlx::query(
+        sqlx::query!(
             "CREATE TABLE urls (
                       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                       short_code VARCHAR(10) UNIQUE NOT NULL,
