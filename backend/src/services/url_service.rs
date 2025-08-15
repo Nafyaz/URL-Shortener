@@ -1,45 +1,36 @@
+use crate::config::Config;
+use crate::error::AppError;
+use crate::error::AppError::{DatabaseQueryError, ShortCodeNotFoundError};
+use crate::models::url::Url;
+use crate::models::url_response::UrlResponse;
 use nanoid::nanoid;
 use sqlx::PgPool;
-
-use crate::config::AppConfig;
-use crate::error::AppError;
-use crate::models::url::{Url, UrlRequest, UrlResponse};
+use tracing::instrument;
 
 #[derive(Clone)]
 pub struct UrlService {
     pool: PgPool,
-    config: AppConfig,
+    config: Config,
 }
 
 impl UrlService {
-    pub fn new(pool: PgPool, config: AppConfig) -> Self {
+    pub fn new(pool: PgPool, config: Config) -> Self {
         Self { pool, config }
     }
 
-    async fn validate_url(&self, url: &str) -> Result<String, AppError> {
-        if !url.starts_with("http://") && !url.starts_with("https://") {
-            return Err(AppError::UrlValidationError(
-                "Invalid URL format. Must start with http:// or https://".to_string(),
-            ));
-        }
-
-        Ok(url.to_string())
-    }
-
-    pub async fn shorten_url(&self, request: UrlRequest) -> Result<UrlResponse, AppError> {
-        let validated_url = self.validate_url(&request.url).await?;
-
+    #[instrument(skip(self, url))]
+    pub async fn shorten_url(&self, url: &str) -> Result<UrlResponse, AppError> {
         let short_code = nanoid!(6);
 
         let url = sqlx::query_as!(
             Url,
             "INSERT INTO urls (short_code, original_url) VALUES ($1, $2) RETURNING id, short_code, original_url, created_at",
             short_code,
-            validated_url
+            url
         )
             .fetch_one(&self.pool)
             .await
-            .map_err(AppError::DatabaseQueryError)?;
+            .map_err(DatabaseQueryError)?;
 
         Ok(UrlResponse::new(
             &self.config.base_url,
@@ -55,10 +46,10 @@ impl UrlService {
         )
         .fetch_optional(&self.pool)
         .await
-        .map_err(AppError::DatabaseQueryError)?;
+        .map_err(DatabaseQueryError)?;
 
         result
             .map(|record| record.original_url)
-            .ok_or(AppError::UrlNotFoundError)
+            .ok_or(ShortCodeNotFoundError(short_code.to_string()))
     }
 }

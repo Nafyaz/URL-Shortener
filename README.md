@@ -3,7 +3,9 @@
 This is a simple URL shortener that I am building to learn Rust and Svelte. Also some ops and testing things. So, no url analytics, custom short codes, expiration or authentication.
 
 It has only two api's:
+
 POST: /shorten -> shortens a given url
+
 GET: /{short_code} -> redirects the short code to original url
 
 Here's the tech stack I am using:
