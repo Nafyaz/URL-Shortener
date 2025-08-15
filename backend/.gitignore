@@ -1,0 +1,11 @@
+# IDE
+/.idea
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+#Output
+/target
