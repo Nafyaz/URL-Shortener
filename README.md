@@ -1,95 +1,47 @@
-# URL Shortener Service
+# URL Shortener
 
-A full-stack URL shortener service built with:
-- **Backend**: Rust + Axum framework
-- **Frontend**: SvelteKit (Svelte)
-- **Database**: PostgreSQL
+This is a simple URL shortener that I am building to learn Rust and Svelte. Also some ops and testing things. So, no url analytics, custom short codes, expiration or authentication.
 
-## Project Structure
+It has only two api's:
+POST: /shorten -> shortens a given url
+GET: /{short_code} -> redirects the short code to original url
 
-```
-.
-├── backend/               # Rust backend code
-│   ├── src/               # Source code
-│   │   ├── config/        # Configuration management
-│   │   ├── database/      # Database connection handling
-│   │   ├── error.rs       # Error handling
-│   │   ├── models/        # Data models
-│   │   ├── routes/        # API routes
-│   │   ├── services/      # Business logic
-│   │   └── main.rs        # Application entry point
-│   ├── Cargo.toml         # Rust dependencies
-│   └── Dockerfile         # Backend container configuration
-├── frontend/              # SvelteKit frontend
-│   ├── src/               # Source code
-│   │   └── routes/        # Frontend routes
-│   ├── package.json       # Node.js dependencies
-│   └── Dockerfile         # Frontend container configuration
-├── docker-compose.yml     # Docker Compose configuration
-└── README.md              # Project documentation
-```
+Here's the tech stack I am using:
 
-## Features
+## Backend:
 
-- Create shortened URLs
-- Redirect from short URLs to original URLs
+- Rust with Axum
+- SQLx with postgres
+- Serde for serialization / deserialization
+- Valkey for cache
+- base62 encoding
+- Rate limiting in rust
+- Short code collision handling
 
-## Running with Docker Compose
+## Frontend:
 
-1. Clone the repository
-2. Run the following command:
+- Typescript with SvelteKit and Svelte 5 as both frontend and a backend for frontend
+- Shadcn-svelte for components
+- zod / superforms / formsnap for forms
+- Vite for build tool
 
-   ```bash
-   docker-compose up -d
-   ```
+## Testing:
 
-This will start:
-- PostgreSQL database on port 5432
-- Backend API on port 3000
-- Frontend on port 8080
+- Unit test with vitest
+- Component test with storybook
+- Playwright for end-to-end test
 
-## Development Setup
+## Ops:
 
-### Backend (Rust)
+- Podman for containerization
+- nginx for reverse proxy
+- Deploy in aws
+- SSL / TLS using Let’s Encrypt
+- Rate limiting in nginx
 
-1. Install Rust: https://www.rust-lang.org/tools/install
-2. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-3. Create a `.env` file with the following variables:
-   ```
-   DATABASE_URL=postgres://postgres:postgres@localhost/urlshortener
-   SERVER_ADDRESS=127.0.0.1:3000
-   BASE_URL=http://localhost:3000
-   ```
-4. Run the development server:
-   ```bash
-   cargo run
-   ```
+## Miscellaneous
 
-### Frontend (SvelteKit)
-
-1. Install Node.js: https://nodejs.org/
-2. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-## API Endpoints
-
-- `POST /api/shorten` - Create a shortened URL
-- `GET /api/urls` - List all URLs
-- `GET /:id` - Redirect to the original URL
-
-## License
-
-MIT
+- Logs
+- Tracing
+- Metrics
+- Healthcheck
