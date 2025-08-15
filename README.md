@@ -33,18 +33,15 @@ A full-stack URL shortener service built with:
 
 - Create shortened URLs
 - Redirect from short URLs to original URLs
-- List all shortened URLs
-- Containerized deployment with Docker
-- Modular, maintainable code structure
 
 ## Running with Docker Compose
 
 1. Clone the repository
 2. Run the following command:
 
-```bash
-docker-compose up -d
-```
+   ```bash
+   docker-compose up -d
+   ```
 
 This will start:
 - PostgreSQL database on port 5432
