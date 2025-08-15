@@ -1,6 +1,5 @@
 .idea
 
-test-results
 node_modules
 
 # Output
@@ -29,3 +28,4 @@ vite.config.ts.timestamp-*
 src/lib/paraglide
 
 *storybook.log
+storybook-static

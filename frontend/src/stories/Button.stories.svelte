@@ -1,7 +1,7 @@
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import Button from './Button.svelte';
-  import { fn } from '@storybook/test';
+  import { fn } from 'storybook/test';
 
   // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
   const { Story } = defineMeta({
@@ -12,11 +12,11 @@
       backgroundColor: { control: 'color' },
       size: {
         control: { type: 'select' },
-        options: ['small', 'medium', 'large'],
-      },
+        options: ['small', 'medium', 'large']
+      }
     },
     args: {
-      onClick: fn(),
+      onclick: fn()
     }
   });
 </script>

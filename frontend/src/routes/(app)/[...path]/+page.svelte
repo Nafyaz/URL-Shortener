@@ -1,1 +1,0 @@
-Kire!!! error khaiyosos naaa
