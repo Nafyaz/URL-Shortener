@@ -58,7 +58,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .layer(cors_layer),
         );
 
-    let addr = config.server_address.parse::<SocketAddr>()?;
+    let addr = config.backend_address.parse::<SocketAddr>()?;
     println!("Server running on {}", addr);
 
     let listener = TcpListener::bind(addr).await?;

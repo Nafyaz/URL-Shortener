@@ -19,7 +19,6 @@
     <Form.Field {form} name="url">
       <Form.Control>
         {#snippet children({ props })}
-          <!--          <Form.Label>URL</Form.Label>-->
           <Input {...props} type="url" bind:value={$formData.url} />
         {/snippet}
       </Form.Control>

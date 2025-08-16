@@ -3,6 +3,7 @@ import { urlSchema } from "$schemas/url";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { fail } from "@sveltejs/kit";
+import { env } from "$env/dynamic/private";
 
 export const load: PageServerLoad = async () => {
   return {
@@ -18,6 +19,23 @@ export const actions: Actions = {
       return fail(400, { form });
     }
 
-    return { form };
+    const apiUrl = env.API_URL;
+    if (!apiUrl) {
+      throw new Error("Missing API_URL in .env file");
+    }
+
+    const res = await fetch(`${apiUrl}/shorten`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        url: form.data.url
+      })
+    });
+
+    if (!res.ok) {
+      return fail(res.status, { form, error: await res.text() });
+    }
+
+    return { form, success: true };
   }
-};
+} satisfies Actions;
