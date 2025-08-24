@@ -1,4 +1,3 @@
-use crate::config::Config;
 use crate::error::AppError;
 use crate::error::AppError::{DatabaseQueryError, ShortCodeNotFoundError};
 use crate::models::url::Url;
@@ -10,12 +9,11 @@ use tracing::instrument;
 #[derive(Clone)]
 pub struct UrlService {
     pool: PgPool,
-    config: Config,
 }
 
 impl UrlService {
-    pub fn new(pool: PgPool, config: Config) -> Self {
-        Self { pool, config }
+    pub fn new(pool: PgPool) -> Self {
+        Self { pool }
     }
 
     #[instrument(skip(self, url))]
@@ -32,11 +30,7 @@ impl UrlService {
             .await
             .map_err(DatabaseQueryError)?;
 
-        Ok(UrlResponse::new(
-            &self.config.base_url,
-            &url.short_code,
-            &url.original_url,
-        ))
+        Ok(UrlResponse::new(&url.short_code, &url.original_url))
     }
 
     pub async fn get_original_url(&self, short_code: &str) -> Result<String, AppError> {

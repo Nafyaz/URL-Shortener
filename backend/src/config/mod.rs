@@ -5,7 +5,6 @@ use std::env;
 pub struct Config {
     pub database_url: String,
     pub backend_address: String,
-    pub base_url: String,
 }
 
 impl Config {
@@ -15,7 +14,6 @@ impl Config {
         Self {
             database_url: env::var("DATABASE_URL").expect("DATABASE_URL must be set"),
             backend_address: env::var("BACKEND_ADDRESS").expect("BACKEND_ADDRESS must be set"),
-            base_url: env::var("BASE_URL").expect("BASE_URL must be set"),
         }
     }
 }

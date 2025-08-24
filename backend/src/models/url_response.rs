@@ -7,9 +7,9 @@ pub struct UrlResponse {
 }
 
 impl UrlResponse {
-    pub fn new(base_url: &str, short_code: &str, original_url: &str) -> Self {
+    pub fn new(short_code: &str, original_url: &str) -> Self {
         Self {
-            short_url: format!("{}/{}", base_url, short_code),
+            short_url: format!("{}", short_code),
             original_url: original_url.to_string(),
         }
     }

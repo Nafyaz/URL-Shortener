@@ -36,6 +36,7 @@ export const actions: Actions = {
       return fail(res.status, { form, error: await res.text() });
     }
 
-    return { form, success: true };
+    const result = await res.json();
+    return { form, short_url: result.short_url };
   }
 } satisfies Actions;

@@ -35,7 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     init_telemetry();
 
     let db_conn = DatabaseConnection::new(&config).await?;
-    let url_service = UrlService::new(db_conn.get_pool(), config.clone());
+    let url_service = UrlService::new(db_conn.get_pool());
 
     let app_state = Arc::new(AppState { url_service });
 
