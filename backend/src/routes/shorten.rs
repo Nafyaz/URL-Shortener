@@ -22,7 +22,7 @@ pub async fn shorten_url(
     Json(payload): Json<UrlRequest>,
 ) -> Result<(StatusCode, Json<UrlResponse>), AppError> {
     let url = validate_url(&payload.url)?;
-    let result = state.url_service.shorten_url(&url).await?;
+    let result = state.url_service.get_short_code(&url).await?;
 
     info!("Shortened URL: {}", result.short_url);
     Ok((StatusCode::CREATED, Json(result)))

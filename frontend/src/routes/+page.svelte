@@ -14,7 +14,7 @@
   const { form: formData, enhance } = form;
 </script>
 
-<div class="oklch(0.9798 0.0505 104.88) flex h-screen items-center justify-center">
+<div class="flex h-screen items-center justify-center">
   <form method="POST" class="w-1/3 space-y-6 text-center" use:enhance>
     <Form.Field {form} name="url">
       <Form.Control>

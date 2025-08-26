@@ -17,7 +17,7 @@ impl UrlService {
     }
 
     #[instrument(skip(self, url))]
-    pub async fn shorten_url(&self, url: &str) -> Result<UrlResponse, AppError> {
+    pub async fn get_short_code(&self, url: &str) -> Result<UrlResponse, AppError> {
         let short_code = nanoid!(6);
 
         let url = sqlx::query_as!(

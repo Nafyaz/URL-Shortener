@@ -24,7 +24,7 @@ export const actions: Actions = {
       throw new Error("Missing API_URL in .env file");
     }
 
-    const res = await fetch(`${apiUrl}/shorten`, {
+    const response = await fetch(`${apiUrl}/shorten`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -32,11 +32,11 @@ export const actions: Actions = {
       })
     });
 
-    if (!res.ok) {
-      return fail(res.status, { form, error: await res.text() });
+    if (!response.ok) {
+      return fail(response.status, { error: await response.json() });
     }
 
-    const result = await res.json();
+    const result = await response.json();
     return { form, short_url: result.short_url };
   }
 } satisfies Actions;
