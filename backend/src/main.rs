@@ -1,19 +1,18 @@
 mod config;
-mod database;
 mod error;
 mod models;
 mod routes;
 mod services;
-mod telemetry;
 
-use crate::telemetry::init_telemetry;
 use axum::http::{header, HeaderValue, Method};
 use axum::{
     routing::{get, post},
     Router,
 };
+use config::database::DatabaseConfig;
+use config::logging::init_logging;
 use config::Config;
-use database::DatabaseConnection;
+use dotenvy::dotenv;
 use routes::redirect::redirect_to_original;
 use routes::shorten::shorten_url;
 use services::url_service::UrlService;
@@ -32,11 +31,15 @@ pub struct AppState {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let config = Config::new();
-    init_telemetry();
+    dotenv().ok();
 
-    let db_conn = DatabaseConnection::new(&config).await?;
-    let url_service = UrlService::new(db_conn.get_pool());
+    init_logging();
+
+    let db_config = DatabaseConfig::from_env();
+    let db_pool = db_config.create_pool().await?;
+    let url_service = UrlService::new(db_pool);
+
+    let config = Config::new();
 
     let app_state = Arc::new(AppState { url_service });
 

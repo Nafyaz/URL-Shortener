@@ -2,7 +2,7 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{fmt, registry, EnvFilter};
 
-pub fn init_telemetry() {
+pub fn init_logging() {
     let filter_layer = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info"));
 
     let fmt_layer = fmt::layer()
